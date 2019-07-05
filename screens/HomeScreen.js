@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable quotes */
-import React from "react";
+import React from 'react';
 import {
   Alert,
   Animated,
@@ -12,22 +12,22 @@ import {
   Text,
   TouchableOpacity,
   UIManager,
-  View
+  View,
   // Button,
-} from "react-native";
-import { navigate } from "react-navigation";
-import { connect } from "react-redux";
+} from 'react-native';
+import { navigate } from 'react-navigation';
+import { connect } from 'react-redux';
 import {
   watchUserData,
   watchPlaceData,
-  watchActivityData
-} from "../redux/app-redux";
-import { Button, Container, Form, Icon, Input, Item } from "native-base";
-import * as firebase from "firebase";
+  watchActivityData,
+} from '../redux/app-redux';
+import { Button, Container, Form, Icon, Input, Item } from 'native-base';
+import * as firebase from 'firebase';
 import {
   writeUserData,
-  updateUserActivityData
-} from "../firebase/firebaseConfig";
+  updateUserActivityData,
+} from '../firebase/firebaseConfig';
 
 // ###################################
 // Prep for Monday 26 Nov code review.
@@ -41,10 +41,10 @@ class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      name: "",
-      logInForm: false
+      email: '',
+      password: '',
+      name: '',
+      logInForm: false,
     };
   }
 
@@ -60,28 +60,28 @@ class HomeScreen extends React.Component {
     try {
       await firebase.auth().signOut();
       firebase.auth().currentUser &&
-        console.log("currentUser: ", firebase.auth().currentUser.uid);
+        console.log('currentUser: ', firebase.auth().currentUser.uid);
       // navigate('Auth');
 
       // alert box to user---------
 
       Alert.alert(
-        "Logout Status",
-        "Logout Successful",
+        'Logout Status',
+        'Logout Successful',
         [
           {
-            text: "OK",
+            text: 'OK',
             onPress: () => {
-              console.log("OK Pressed");
+              console.log('OK Pressed');
               this.setState({
-                email: "",
-                password: ""
+                email: '',
+                password: '',
               });
-            }
-          }
+            },
+          },
         ],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     } catch (error) {
@@ -103,7 +103,7 @@ class HomeScreen extends React.Component {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(function(user) {
-          console.log("userLoggedIn: ", user);
+          console.log('userLoggedIn: ', user);
         });
 
       // ##### Send off the redux thunks BASED OFF THE MAPPED DISPATCH
@@ -113,37 +113,37 @@ class HomeScreen extends React.Component {
 
       // alert box to user---------
       Alert.alert(
-        "Login Status",
-        "Login Successful",
+        'Login Status',
+        'Login Successful',
         [
           {
-            text: "OK",
+            text: 'OK',
             onPress: () => {
-              console.log("About to move pages");
-              this.props.navigation.navigate("IntroSlider");
-            }
-          }
+              console.log('About to move pages');
+              this.props.navigation.navigate('IntroSlider');
+            },
+          },
         ],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     } catch (error) {
       console.log(error.toString());
       Alert.alert(
-        "Login Failed",
+        'Login Failed',
         "Your info doesn't match our records. Please try again.",
         [
           {
-            text: "OK",
+            text: 'OK',
             onPress: () => {
-              console.log("FAILURE: Wrong info");
+              console.log('FAILURE: Wrong info');
               this.setState({
-                password: ""
+                password: '',
               });
-              console.log("OK Pressed, Password field cleared.");
-            }
-          }
+              console.log('OK Pressed, Password field cleared.');
+            },
+          },
         ],
         { cancelable: false }
       );
@@ -164,21 +164,21 @@ class HomeScreen extends React.Component {
       // ###### Ensure password > 6 chars; else show Alert
       if (this.state.password.length < 6) {
         Alert.alert(
-          "Sign Up Failed",
-          "Password must be longer than 6 characters",
+          'Sign Up Failed',
+          'Password must be longer than 6 characters',
           [
             // {
             //   text: 'Cancel',
             //   onPress: () => console.log('Cancel Pressed'),
             //   style: 'cancel',
             // },
-            { text: "OK", onPress: () => console.log("OK Pressed") }
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
           ],
           {
-            cancelable: false
+            cancelable: false,
           }
         );
-        console.log("Password must be longer than 6 characters");
+        console.log('Password must be longer than 6 characters');
         return;
       }
 
@@ -187,14 +187,14 @@ class HomeScreen extends React.Component {
 
       // ##### Capture current userID directly after creation
       const userId = firebase.auth().currentUser.uid;
-      console.log("HomeScreen auth() userId: ", userId);
+      console.log('HomeScreen auth() userId: ', userId);
 
       // ##### Function that writes a user entry in database matched by userId
       await writeUserData(userId, {
         name: this.state.name,
         email: this.state.email,
-        homebaseLatitude: "",
-        homebaseLongitude: ""
+        homebaseLatitude: '',
+        homebaseLongitude: '',
       });
       // end of activity object prototype
 
@@ -205,8 +205,8 @@ class HomeScreen extends React.Component {
 
       // ##### Alert box to user---------
       Alert.alert(
-        "Sign Up Status",
-        "Sign Up Successful",
+        'Sign Up Status',
+        'Sign Up Successful',
         [
           // {
           //   text: 'Cancel',
@@ -214,20 +214,20 @@ class HomeScreen extends React.Component {
           //   style: 'cancel',
           // },
           {
-            text: "OK",
-            onPress: () => this.props.navigation.navigate("IntroSlider")
-          }
+            text: 'OK',
+            onPress: () => this.props.navigation.navigate('IntroSlider'),
+          },
         ],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     } catch (error) {
       console.log(error.toString());
       Alert.alert(
-        "Sign Up Status",
-        "Sign Up Failed",
-        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        'Sign Up Status',
+        'Sign Up Failed',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
     }
@@ -245,7 +245,7 @@ class HomeScreen extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <Container style={styles.container}>
           <ImageBackground
-            source={require("../assets/images/nyc.gif")}
+            source={require('../assets/images/nyc.gif')}
             style={styles.welcomeImage}
           >
             <View style={styles.formBox}>
@@ -268,7 +268,7 @@ class HomeScreen extends React.Component {
                   <Text
                     style={[
                       styles.toggleButtons,
-                      !this.state.logInForm && styles.toggleInputSelected
+                      !this.state.logInForm && styles.toggleInputSelected,
                     ]}
                   >
                     Sign Up
@@ -285,7 +285,7 @@ class HomeScreen extends React.Component {
                   <Text
                     style={[
                       styles.toggleButtons,
-                      this.state.logInForm && styles.toggleInputSelected
+                      this.state.logInForm && styles.toggleInputSelected,
                     ]}
                   >
                     Log In
@@ -334,7 +334,7 @@ class HomeScreen extends React.Component {
                       this.loginUser(this.state.email, this.state.password)
                     }
                   >
-                    <Text style={{ color: "white" }}>Login</Text>
+                    <Text style={{ color: 'white' }}>Login</Text>
                   </Button>
                   {/* CAMERA BUTTON FOR DEBUG */}
                   {/* <Button
@@ -401,7 +401,7 @@ class HomeScreen extends React.Component {
                       )
                     }
                   >
-                    <Text style={{ color: "white" }}>Sign Up</Text>
+                    <Text style={{ color: 'white' }}>Sign Up</Text>
                   </Button>
                   {/* MAP BUTTON FOR DEBUG */}
                   {/* <Button
@@ -432,7 +432,7 @@ const mapStateToProps = state => {
   return {
     userData: state.userData,
     activities: state.activities,
-    places: state.places
+    places: state.places,
   };
 };
 
@@ -440,7 +440,7 @@ const mapDispatchToProps = dispatch => {
   return {
     watchUser: () => dispatch(watchUserData()),
     watchActivities: () => dispatch(watchActivityData()),
-    watchPlaces: () => dispatch(watchPlaceData())
+    watchPlaces: () => dispatch(watchPlaceData()),
   };
 };
 
@@ -451,61 +451,61 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   welcomeImage: {
     width: undefined,
-    height: "100%",
-    resizeMode: "cover",
-    justifyContent: "center",
-    alignContent: "center"
+    height: '100%',
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   logoBox: {
-    alignItems: "center"
+    alignItems: 'center',
   },
   textLogo: {
-    color: "white",
-    fontSize: 80,
+    color: 'white',
+    fontSize: 65,
     lineHeight: 84,
-    fontFamily: "Abril-FatFace",
-    textShadowColor: "black",
+    fontFamily: 'Abril-FatFace',
+    textShadowColor: 'black',
     textShadowOffset: { width: 3, height: 3 },
-    textShadowRadius: 5
+    textShadowRadius: 5,
   },
   logoSize: {
     width: 150,
-    height: 150
+    height: 150,
   },
   formBox: {
     marginHorizontal: 50,
     paddingBottom: 50,
-    paddingHorizontal: 25
+    paddingHorizontal: 25,
   },
   toggleInputView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 25
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 25,
   },
   toggleInputSelected: {
-    color: "white"
+    color: 'white',
   },
   toggleButtons: {
-    color: "rgba(255,255,255,0.5)",
-    fontFamily: "Abril-FatFace",
+    color: 'rgba(255,255,255,0.5)',
+    fontFamily: 'Abril-FatFace',
     fontSize: 36,
-    textShadowColor: "black",
+    textShadowColor: 'black',
     textShadowOffset: { width: 3, height: 1 },
-    textShadowRadius: 3
+    textShadowRadius: 3,
   },
   formBGColor: {
     paddingTop: 5,
     paddingBottom: 15,
     paddingRight: 25,
-    backgroundColor: "white",
-    borderRadius: 10
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   inputText: {
-    color: "black",
-    fontFamily: "Roboto"
-  }
+    color: 'black',
+    fontFamily: 'Roboto',
+  },
 });
